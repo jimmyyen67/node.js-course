@@ -237,7 +237,7 @@ img {
 }
 
 .article-ul:hover li {
-    filter: blur(3px);
+    filter: blur(1px);
 }
 
 .article-ul:hover li:hover {
@@ -268,8 +268,8 @@ img {
 
 /* Search Bar */
 .searchBar {
-    visibility: hidden;
-    transform: translateY(-100px);
+    /* visibility: hidden; */
+    /* transform: translateY(-100px); */
     background-color: var(--black);
     padding: 4px 0;
     position: absolute;

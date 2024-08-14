@@ -268,18 +268,19 @@ img {
 
 /* Search Bar */
 .searchBar {
-    /* visibility: hidden; */
-    /* transform: translateY(-100px); */
+    visibility: hidden;
+    transform: translateY(-100px);
     background-color: var(--black);
     padding: 4px 0;
     position: absolute;
     left: 0;
     right: 0;
+    transition: transform 0.3s;
 }
 
 .searchBar.open {
     transform: translateY(0);
-    transition: transform 0.1s;
+
 }
 
 .searchBar input {
@@ -289,8 +290,9 @@ img {
 
 #searchClose {
     position: absolute;
-    top: 0;
-    right: 0;
+    bottom: 5px;
+    right: 10px;
     color: var(--gray-light);
-    padding: 15px;
+    padding: 0px;
+    cursor: pointer;
 }

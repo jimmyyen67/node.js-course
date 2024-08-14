@@ -92,10 +92,141 @@ const authMiddleware = (req, res, next) => {
 
 /**
  * GET /
- * Dashboard
+ * Admin Dashboard
  */
 router.get('/dashboard', authMiddleware, async (req, res) => {
-    res.render('admin/dashboard');
+    try {
+        const locals = {
+            title: "Dashboard",
+            description: "Simple blog dashboard created with NodeJs, Express and MongoDB."
+        }
+
+        const data = await Post.find();
+        res.render('admin/dashboard', {
+            locals,
+            data,
+            layout: adminLayout
+        });
+    } catch (error) {
+        console.log(error);
+    }
 })
+
+
+/**
+ * GET /
+ * Admin Create New Post
+ */
+router.get('/add-post', authMiddleware, async (req, res) => {
+    try {
+        const locals = {
+            title: "Add Post",
+            description: "Simple blog dashboard created with NodeJs, Express and MongoDB."
+        }
+
+        const data = await Post.find();
+        res.render('admin/add-post', {
+            locals,
+            layout: adminLayout
+        });
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+/**
+ * POST /
+ * Admin Add Post
+ */
+router.post('/add-post', authMiddleware, async (req, res) => {
+    try {
+        console.log(req.body);
+
+        const newPost = {
+            title: req.body.title,
+            body: req.body.body
+        };
+
+        await Post.create(newPost);
+        return res.redirect('/dashboard');
+
+    } catch (error) {
+        console.error(error);
+
+        // Return 500 error if create post failed.
+        return res.status(500).json({ message: "Failed to create post. Internal Server Error." });
+    }
+})
+
+/**
+ * GET /
+ * Admin Edit Post Page
+ */
+router.get('/edit-post/:id', authMiddleware, async (req, res) => {
+    const locals = {
+        title: "Edit Post",
+        description: "Simple blog dashboard created with NodeJs, Express and MongoDB."
+    }
+
+    try {
+        const data = await Post.findById(req.params.id);
+        res.render('admin/edit-post', {
+            locals,
+            data,
+            layout: adminLayout
+        })
+    } catch (error) {
+        console.error(error);
+
+        // Return 500 error if edit post failed.
+        return res.status(500).json({ message: "Failed to find the post. Internal Server Error." });
+    }
+})
+
+/**
+ * PUT /
+ * Admin Edit Post
+ */
+router.put('/edit-post/:id', authMiddleware, async (req, res) => {
+    try {
+        await Post.findByIdAndUpdate(req.params.id, {
+            title: req.body.title,
+            body: req.body.body,
+            updatedAt: Date.now()
+        })
+        res.redirect(`/edit-post/${req.params.id}`);
+    } catch (error) {
+        console.error(error);
+
+        // Return 500 error if edit post failed.
+        return res.status(500).json({ message: "Failed to edit post. Internal Server Error." });
+    }
+})
+
+/**
+ * DELETE /
+ * Admin Delete Post
+ */
+router.delete('/delete-post/:id', authMiddleware, async (req, res) => {
+    try {
+        await Post.deleteOne({ _id: req.params.id });
+        res.redirect('/dashboard');
+    } catch (error) {
+        console.error(error);
+
+        // Return 500 error if edit post failed.
+        return res.status(500).json({ message: "Failed to delelte post. Internal Server Error." });
+    }
+})
+
+/**
+ * GET /
+ * Admin Logout
+ */
+router.get('/logout', (req, res) => {
+    res.clearCookie('token');
+    res.redirect('/');
+})
+
 
 module.exports = router;

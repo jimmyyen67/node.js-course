@@ -157,12 +157,13 @@ img {
     text-decoration: none;
 }
 
-.header__nav ul a:hover {
+.header__nav ul a:hover:not(.active) {
     text-decoration: underline;
 }
 
-.header__nav ul a:active {
+.header__nav ul a.active {
     color: var(--gray);
+    cursor: default;
 }
 
 /* Author -HomePage */
@@ -295,4 +296,37 @@ img {
     color: var(--gray-light);
     padding: 0px;
     cursor: pointer;
+}
+
+/* Dashboard Admin */
+.admin-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-posts {
+    padding: 0;
+    margin: 0;
+}
+
+.admin-post-controls form {
+    display: inline-block;
+}
+
+.admin-post-controls .btn {
+    display: inline-block;
+    background-color: var(--black);
+    color: var(--gray-light);
+    border: 0;
+    text-decoration: none;
+    font-size: .8rem;
+    padding: 4px 8px;
+    line-height: 2;
+}
+
+.admin-posts li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
 }
